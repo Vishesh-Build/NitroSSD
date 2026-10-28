@@ -82,7 +82,11 @@ public static class MountFlagBuilder
         Flag("vfs-read-chunk-size", ByteSize.ToRclone(i.Cache.ReadChunkSizeBytes));
         if (i.Cache.ReadChunkStreams > 0) Flag("vfs-read-chunk-streams", i.Cache.ReadChunkStreams.ToString(CultureInfo.InvariantCulture));
         Flag("vfs-write-back", Dur(i.Cache.WriteBack));
-        Flag("dir-cache-time", "30m");
+        Flag("vfs-read-chunk-size-limit", "2Gi");
+        Flag("vfs-fast-fingerprint");
+        Flag("no-checksum");
+        Flag("dir-cache-time", "1h");
+        Flag("transfers", "2");
         // Executables need the execute bit in the WinFsp ACL mapping; default 0666 makes CreateProcess fail with
         // "Access is denied" (verified on rclone 1.75.2 / WinFsp 2025).
         Flag("file-perms", "0777");

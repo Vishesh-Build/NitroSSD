@@ -24,10 +24,10 @@ public sealed class CacheSettings
     public string? CacheRoot { get; set; }
 
     /// <summary>Total physical disk budget for all mount caches.</summary>
-    public long BudgetBytes { get; set; } = 20 * ByteSize.GiB;
+    public long BudgetBytes { get; set; } = 35 * ByteSize.GiB;
 
     /// <summary>Free space that must always remain on the cache volume for Windows.</summary>
-    public long MinFreeSpaceBytes { get; set; } = 8 * ByteSize.GiB;
+    public long MinFreeSpaceBytes { get; set; } = 6 * ByteSize.GiB;
 
     /// <summary>How long unused cached data may stay before rclone evicts it.</summary>
     public TimeSpan MaxAge { get; set; } = TimeSpan.FromDays(30);
@@ -39,15 +39,15 @@ public sealed class CacheSettings
     /// Measured: default 16M causes large speculative downloads for random game reads, so the default here is 0 and
     /// the prediction engine owns read-ahead.
     /// </summary>
-    public long BufferSizeBytes { get; set; } = 0;
+    public long BufferSizeBytes { get; set; } = 32 * ByteSize.MiB;
 
-    public long ReadAheadBytes { get; set; } = 0;
+    public long ReadAheadBytes { get; set; } = 64 * ByteSize.MiB;
 
-    public long ReadChunkSizeBytes { get; set; } = 4 * ByteSize.MiB;
+    public long ReadChunkSizeBytes { get; set; } = 16 * ByteSize.MiB;
 
-    public int ReadChunkStreams { get; set; } = 0;
+    public int ReadChunkStreams { get; set; } = 4;
 
-    public TimeSpan WriteBack { get; set; } = TimeSpan.FromSeconds(5);
+    public TimeSpan WriteBack { get; set; } = TimeSpan.FromHours(1);
 
     public List<string> PinnedPaths { get; set; } = new();
 }
@@ -71,7 +71,7 @@ public sealed class NetworkSettings
     public int MaxPrefetchConcurrency { get; set; } = 4;
 
     /// <summary>rclone --tpslimit for provider API calls (0 = unlimited). Protects Google Drive quotas.</summary>
-    public double TpsLimit { get; set; } = 10;
+    public double TpsLimit { get; set; } = 20;
 
     public double EffectiveMbps => MeasuredDownloadMbps ?? DeclaredDownloadMbps;
 }
