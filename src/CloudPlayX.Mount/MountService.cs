@@ -199,7 +199,7 @@ public sealed class RcloneMountService : IAsyncDisposable
         s.Rc = new RcClient(port, s.RcUser, s.RcPass);
         AttachTelemetry(s, fromEnd: false);
 
-        var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(45);
+        var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(180);
         while (DateTime.UtcNow < deadline)
         {
             ct.ThrowIfCancellationRequested();
@@ -225,7 +225,7 @@ public sealed class RcloneMountService : IAsyncDisposable
         s.State = MountState.Failed;
         Publish(s, "Timed out waiting for the drive to appear.");
         TryKill(proc);
-        throw new TimeoutException($"Drive {s.DriveLetter}: did not appear within 45 s. See {s.LogFile}.");
+        throw new TimeoutException($"Drive {s.DriveLetter}: did not appear within 180 s. See {s.LogFile}.");
     }
 
     private void AttachTelemetry(MountSession s, bool fromEnd)
